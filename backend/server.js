@@ -5,11 +5,10 @@ const bodyParser = require('body-parser');
 const PORT = process.env.PORT || 3300;
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
+const router = require('./router');
 
 server.use(bodyParser.json());
-server.get('/', (req, res) => {
-    res.send('Il server backend è attivo!');
-});
+server.use('/', router);
 
 server.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);

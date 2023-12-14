@@ -15,10 +15,22 @@ model Photo {
   imageBytes  Bytes?
   visible     Boolean
   categories  Category[]
+  User        User?      @relation(fields: [userId], references: [id])
+  userId      Int?
 }
 
 model Category {
   id     Int     @id @default(autoincrement())
   name   String
   photos Photo[]
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  username  String   @unique
+  password  String
+  role      String   @default("user")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  photos    Photo[]
 }
