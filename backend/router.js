@@ -5,10 +5,18 @@ const photoController = require('./controllers/photoController');
 const categoryController = require('./controllers/categoryController');
 const { authenticateToken, isAdmin, isSuperAdmin } = require('./middlewares/authMiddleware');
 const router = express.Router();
+const path = require('path');
 
 // pubbliche
 router.post('/login', authController.login);
 router.post('/register', authController.register);
+
+// immagini
+router.get('/images/:filename', (req, res) => {
+    const filename = req.params.filename;
+    const imagePath = path.join(__dirname, 'public', filename);
+    res.sendFile(imagePath);
+});
 
 // autenticazione
 router.use(['/admin', '/superadmin'], authenticateToken);
