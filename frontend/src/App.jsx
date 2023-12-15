@@ -6,23 +6,29 @@ import PhotoList from './components/Public/PhotoList';
 import PhotoDetails from './components/Public/PhotoDetails';
 import PhotoForm from './components/admin/PhotoForm';
 import CategoryList from './components/Public/CategoryList';
+import Login from './components/Public/Login'
 import Header from './components/shared/Header';
 import Footer from './components/shared/Footer';
+import { AuthProvider } from './AuthContext';
+import PrivateRoute from './PrivateRoute';
 
 function App() {
     return (
-        <BrowserRouter>
-            <Header />
-            <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/photos" element={<PhotoList />} />
-                <Route path="/photos/:id" element={<PhotoDetails />} />
-                <Route path="/categories" element={<CategoryList />} />
-                <Route path="/admin/photos/photo-form" element={<PhotoForm />} />
-                <Route path="/admin/contact-form" element={<ContactForm />} />
-            </Routes>
-            <Footer />
-        </BrowserRouter>
+        <AuthProvider>
+            <BrowserRouter>
+                <Header />
+                <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/photos" element={<PhotoList />} />
+                    <Route path="/photos/:id" element={<PhotoDetails />} />
+                    <Route path="/categories" element={<CategoryList />} />
+                    <Route path="/admin/photos/photo-form" element={<PrivateRoute><PhotoForm /></PrivateRoute>} />
+                    <Route path="/admin/contact-form" element={<PrivateRoute><ContactForm /></PrivateRoute>} />
+                </Routes>
+                <Footer />
+            </BrowserRouter>
+        </AuthProvider>
     );
 }
 

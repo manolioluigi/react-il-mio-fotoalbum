@@ -1,11 +1,11 @@
 import React from 'react';
 
-const PhotoForm = () => {
+const PhotoDetails = () => {
     return (
         <div>
-            <h1>PhotoForm</h1>
+            <h1>PhotoDetails</h1>
         </div>
     );
 }
 
-export default PhotoForm;
+export default PhotoDetails;
