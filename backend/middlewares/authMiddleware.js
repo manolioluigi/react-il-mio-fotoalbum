@@ -29,6 +29,7 @@ const authenticateToken = (req, res, next) => {
 
 const isAdmin = (req, res, next) => {
     const { user, params } = req;
+    //console.log('Decoded Token:', req.user);
     if (user.role === 'admin' && user.id === parseInt(params.userId, 10)) {
         next();
     } else {

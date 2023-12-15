@@ -1,5 +1,6 @@
 const express = require('express');
 const authController = require('./controllers/userController');
+const upload = require('./middlewares/multerMiddleware');
 const photoController = require('./controllers/photoController');
 const categoryController = require('./controllers/categoryController');
 const { authenticateToken, isAdmin, isSuperAdmin } = require('./middlewares/authMiddleware');
@@ -21,8 +22,8 @@ router.use('/superadmin', isSuperAdmin);
 // foto
 router.get('/photos', photoController.getAllPhotos);
 router.get('/photos/:id', photoController.getPhotoById);
-router.post('/admin/:userId/photos', isAdmin, photoController.createPhoto);
-router.put('/admin/:userId/photos/:id', isAdmin, photoController.updatePhoto);
+router.post('/admin/:userId/photos', isAdmin, upload.single('image'), photoController.createPhoto);
+router.put('/admin/:userId/photos/:id', isAdmin, upload.single('image'), photoController.updatePhoto);
 router.delete('/admin/:userId/photos/:id', isAdmin, photoController.deletePhoto);
 
 // categorie

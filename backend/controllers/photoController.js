@@ -1,5 +1,6 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
+const upload = require('../middlewares/multerMiddleware');
 
 const getAllPhotos = async (req, res) => {
     try {
@@ -32,17 +33,25 @@ const getPhotoById = async (req, res) => {
 };
 
 const createPhoto = async (req, res) => {
-    const { title, description, imageUrl, imageBytes, visible, categories } = req.body;
+    let { title, description, visible, categories } = req.body;
 
     try {
+        let image;
+        visible = visible === 'true' ? true : visible === 'false' ? false : Boolean(visible);
+
+        if (req.body.image) {
+            image = req.body.image;
+        } else if (req.file) {
+            image = `/uploads/${req.file.filename}`;
+        }
+
         const newPhoto = await prisma.photo.create({
             data: {
                 title,
                 description,
-                imageUrl,
-                imageBytes,
+                image,
                 visible,
-                categories: { connect: categories.map((categoryId) => ({ id: categoryId })) },
+                categories: { connect: categories.map((categoryId) => ({ id: parseInt(categoryId, 10) })) },
             },
         });
 
@@ -55,18 +64,26 @@ const createPhoto = async (req, res) => {
 
 const updatePhoto = async (req, res) => {
     const { id } = req.params;
-    const { title, description, imageUrl, imageBytes, visible, categories } = req.body;
+    let { title, description, visible, categories } = req.body;
 
     try {
+        let image;
+        visible = visible === 'true' ? true : visible === 'false' ? false : Boolean(visible);
+
+        if (req.body.image) {
+            image = req.body.image;
+        } else if (req.file) {
+            image = `/uploads/${req.file.filename}`;
+        }
+
         const updatedPhoto = await prisma.photo.update({
             where: { id: parseInt(id) },
             data: {
                 title,
                 description,
-                imageUrl,
-                imageBytes,
+                image,
                 visible,
-                categories: { set: categories.map((categoryId) => ({ id: categoryId })) },
+                categories: { connect: categories.map((categoryId) => ({ id: parseInt(categoryId, 10) })) },
             },
         });
 
@@ -76,6 +93,7 @@ const updatePhoto = async (req, res) => {
         res.status(500).json({ error: 'Internal server error' });
     }
 };
+
 
 const deletePhoto = async (req, res) => {
     const { id } = req.params;
