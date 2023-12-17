@@ -1,5 +1,6 @@
 // components/Public/PhotoList.jsx
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 const PhotoList = () => {
     const [photos, setPhotos] = useState([]);
@@ -29,6 +30,9 @@ const PhotoList = () => {
                 {photos.map((photo) => (
                     <li key={photo.id}>
                         <p>{photo.title}</p>
+                        <Link to={`/admin/edit-photo/${photo.id}`}>
+                            <button className='btn btn-sm btn-warning'>edit</button>
+                        </Link>
                     </li>
                 ))}
             </ul>

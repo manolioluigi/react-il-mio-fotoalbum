@@ -12,6 +12,7 @@ import Footer from './components/shared/Footer';
 import { AuthProvider } from './AuthContext';
 import PrivateRoute from './PrivateRoute';
 import CreatePhoto from './components/Admin/CreatePhoto';
+import EditPhoto from './components/Admin/EditPhoto';
 
 function App() {
     return (
@@ -27,6 +28,7 @@ function App() {
                     <Route path="/admin/photos/photo-form" element={<PrivateRoute><PhotoForm /></PrivateRoute>} />
                     <Route path="/admin/contact-form" element={<PrivateRoute><ContactForm /></PrivateRoute>} />
                     <Route path="/admin/create-photo" element={<PrivateRoute><CreatePhoto /></PrivateRoute>} />
+                    <Route path="/admin/edit-photo/:photoId" element={<PrivateRoute><EditPhoto /></PrivateRoute>} />
                 </Routes>
                 <Footer />
             </BrowserRouter>

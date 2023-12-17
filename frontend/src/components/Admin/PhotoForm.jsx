@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
 
-const PhotoForm = ({ token, userId }) => {
-    const [title, setTitle] = useState('');
-    const [description, setDescription] = useState('');
+const PhotoForm = ({ token, userId, photoData }) => {
+    const [title, setTitle] = useState(photoData ? photoData.title : '');
+    const [description, setDescription] = useState(photoData ? photoData.description : '');
     const [categories, setCategories] = useState([]);
     const [selectedFile, setSelectedFile] = useState(null);
-    const [imageUrl, setImageUrl] = useState('');
-    const [visible, setVisible] = useState(true);
-    const [selectedCategories, setSelectedCategories] = useState([]);
+    const [imageUrl, setImageUrl] = useState(photoData ? photoData.image : '');
+    const [visible, setVisible] = useState(photoData ? photoData.visible : true);
+    const [selectedCategories, setSelectedCategories] = useState(
+        photoData ? photoData.categories.map(category => category.id) : []
+    );
 
     useEffect(() => {
         const fetchCategories = async () => {
@@ -32,6 +34,17 @@ const PhotoForm = ({ token, userId }) => {
         fetchCategories();
     }, [token]);
 
+    useEffect(() => {
+        // Impostare lo stato iniziale dei campi del modulo quando photoData cambia
+        if (photoData) {
+            setTitle(photoData.title || '');
+            setDescription(photoData.description || '');
+            setVisible(photoData.visible || true);
+            setSelectedCategories(photoData.categories || []);
+            // Aggiungi eventuali altri campi che vuoi gestire
+        }
+    }, [photoData]);
+
     const handleFileChange = (e) => {
         setSelectedFile(e.target.files[0]);
         setImageUrl('');
@@ -49,11 +62,13 @@ const PhotoForm = ({ token, userId }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
         try {
             const formData = new FormData();
             formData.append('title', title);
             formData.append('description', description);
             formData.append('visible', visible);
+
             selectedCategories.forEach((categoryId) => {
                 formData.append(`categories[]`, categoryId);
             });
@@ -65,7 +80,6 @@ const PhotoForm = ({ token, userId }) => {
             }
 
             formData.append('userId', userId);
-            console.log(formData)
 
             const response = await fetch(`http://localhost:3300/admin/${userId}/photos`, {
                 method: 'POST',
@@ -86,7 +100,6 @@ const PhotoForm = ({ token, userId }) => {
         }
     };
 
-
     return (
         <div>
             <h2>Photo Form</h2>
@@ -104,6 +117,7 @@ const PhotoForm = ({ token, userId }) => {
                     onChange={(e) => setVisible(e.target.checked)}
                 />
 
+                <label>Categories:</label>
                 <select
                     multiple
                     value={selectedCategories}
