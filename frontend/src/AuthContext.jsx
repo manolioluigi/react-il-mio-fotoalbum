@@ -5,6 +5,7 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
+    const [userToken, setUserToken] = useState(null);
 
     useEffect(() => {
         const storedUser = localStorage.getItem('user');
@@ -17,12 +18,17 @@ export const AuthProvider = ({ children }) => {
         }
     }, []);
 
+    useEffect(() => {
+        console.log("updated:", userToken);
+    }, [userToken]);
+
     const login = async (token) => {
         try {
             const decodedToken = decodeToken(token);
             const user = { ...decodedToken };
-
+            setUserToken(token);
             setUser(user);
+            localStorage.setItem('userToken', token);
             localStorage.setItem('user', JSON.stringify(user));
         } catch (error) {
             console.error('Errore durante il recupero delle informazioni dell\'utente:', error);
@@ -45,7 +51,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ user, login, logout }}>
+        <AuthContext.Provider value={{ user, login, logout, userToken }}>
             {children}
         </AuthContext.Provider>
     );

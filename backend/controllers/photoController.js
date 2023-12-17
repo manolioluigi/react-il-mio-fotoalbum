@@ -33,7 +33,7 @@ const getPhotoById = async (req, res) => {
 };
 
 const createPhoto = async (req, res) => {
-    let { title, description, visible, categories } = req.body;
+    let { title, description, visible, categories, userId } = req.body;
 
     try {
         let image;
@@ -52,6 +52,7 @@ const createPhoto = async (req, res) => {
                 image,
                 visible,
                 categories: { connect: categories.map((categoryId) => ({ id: parseInt(categoryId, 10) })) },
+                userId: parseInt(userId, 10),
             },
         });
 
@@ -64,7 +65,7 @@ const createPhoto = async (req, res) => {
 
 const updatePhoto = async (req, res) => {
     const { id } = req.params;
-    let { title, description, visible, categories } = req.body;
+    let { title, description, visible, categories, userId } = req.body;
 
     try {
         let image;
@@ -84,6 +85,7 @@ const updatePhoto = async (req, res) => {
                 image,
                 visible,
                 categories: { connect: categories.map((categoryId) => ({ id: parseInt(categoryId, 10) })) },
+                userId: parseInt(userId, 10),
             },
         });
 
