@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useAuth } from '../../AuthContext';
 import { useNavigate } from 'react-router-dom';
 
@@ -33,34 +34,49 @@ const LoginComponent = () => {
 
             login(token);
             console.log('Login eseguito con successo');
-            navigate('/photos');
+            navigate('/admin/photos');
         } catch (error) {
             console.error('Errore durante il login:', error);
         }
     };
 
     return (
-        <div>
-            <h2>Login</h2>
-            <form onSubmit={handleLogin}>
-                <label>Username:</label>
-                <input
-                    type="text"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    required
-                />
-                <br />
-                <label>Password:</label>
-                <input
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                />
-                <br />
-                <button type="submit">Login</button>
-            </form>
+        <div className='page'>
+            <div className="container">
+                <div className="row">
+                    <div className="col">
+                        <h2 className='my-5'>Login</h2>
+                        <form className='d-flex flex-column' onSubmit={handleLogin}>
+                            <label>Username:</label>
+                            <input
+                                type="text"
+                                className='form-control'
+                                value={username}
+                                onChange={(e) => setUsername(e.target.value)}
+                                required
+                            />
+                            <br />
+                            <label>Password:</label>
+                            <input
+                                type="password"
+                                className='form-control'
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                required
+                            />
+                            <br />
+                            <button className='btn btn-purple' type="submit">Login</button>
+                        </form>
+                        <hr className='my-5' />
+                        <div>
+                            <h4>Non hai un'account?</h4>
+                            <Link to={"/register"}>
+                                <button className='btn btn-purple'><h5>Registrati</h5></button>
+                            </Link>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     );
 };

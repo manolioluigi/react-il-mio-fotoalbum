@@ -25,14 +25,14 @@ const Header = () => {
                     </div>
                     <div className="col d-flex align-items-center justify-content-end">
                         <div className="d-flex gap-3 align-items-center">
-                            <Link className='decoration-none' to="/">Home</Link>
-                            <Link className='decoration-none' to="admin/photos">Foto</Link>
-                            <Link className='decoration-none' to="categories">Categorie</Link>
-                            <Link className='decoration-none' to="admin/contact-form">Contattaci</Link>
+                            <Link className='decoration-none' to="/"><h5 className='no-margin'>Home</h5></Link>
+                            <Link className='decoration-none' to="admin/photos"><h5 className='no-margin'>Foto</h5></Link>
+                            <Link className='decoration-none' to="categories"><h5 className='no-margin'>Categorie</h5></Link>
+                            <Link className='decoration-none' to="admin/contact-form"><h5 className='no-margin'>Contattaci</h5></Link>
                             {user ? (
-                                <button className='btn btn-yellow' onClick={handleLogout}>Logout</button>
+                                <button className='btn btn-yellow' onClick={handleLogout}><h5 className='no-margin'>Logout</h5></button>
                             ) : (
-                                <Link to="login"><button className='btn btn-yellow'>Login</button></Link>
+                                <Link to="login"><button className='btn btn-yellow'><h5 className='no-margin'>Login</h5></button></Link>
                             )}
                         </div>
                     </div>

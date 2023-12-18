@@ -107,44 +107,52 @@ const PhotoForm = ({ token, userId, photoData }) => {
 
 
     return (
-        <div>
-            <h2>Photo Form</h2>
-            <form onSubmit={handleSubmit}>
-                <label>Title:</label>
-                <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} required />
+        <div className='page'>
+            <div className="container">
+                <div className="row">
+                    <div className="col">
+                        <h2 className='py-5'>{photoData ? "Modifica una foto" : "Inserisci una nuova foto"}</h2>
+                        <form className='d-flex flex-column' onSubmit={handleSubmit}>
+                            <label>Titolo:</label>
+                            <input className='form-control' type="text" value={title} onChange={(e) => setTitle(e.target.value)} required />
 
-                <label>Description:</label>
-                <textarea value={description} onChange={(e) => setDescription(e.target.value)} />
+                            <label>Descrizione:</label>
+                            <textarea className='form-control' value={description} onChange={(e) => setDescription(e.target.value)} />
+                            <div>
+                                <label>Immagine pubblica: </label>
+                                <input
+                                    className='mx-2'
+                                    type="checkbox"
+                                    checked={visible}
+                                    onChange={(e) => setVisible(e.target.checked)}
+                                />
+                            </div>
+                            <label>Categorie:</label>
+                            <select
+                                className='form-control'
+                                multiple
+                                value={selectedCategories}
+                                onChange={handleCategoryChange}
+                            >
+                                {Array.isArray(categories) && categories.map((category) => (
+                                    <option key={category.id} value={category.id}>
+                                        {category.name}
+                                    </option>
+                                ))}
+                            </select>
 
-                <label>Visible:</label>
-                <input
-                    type="checkbox"
-                    checked={visible}
-                    onChange={(e) => setVisible(e.target.checked)}
-                />
 
-                <label>Categories:</label>
-                <select
-                    multiple
-                    value={selectedCategories}
-                    onChange={handleCategoryChange}
-                >
-                    {Array.isArray(categories) && categories.map((category) => (
-                        <option key={category.id} value={category.id}>
-                            {category.name}
-                        </option>
-                    ))}
-                </select>
+                            <label>Carica un'immagine:</label>
+                            <input className='form-control' type="file" onChange={handleFileChange} accept="image/*" />
 
+                            <label>oppure inseriscila tramite URL:</label>
+                            <input className='form-control' type="text" value={imageUrl} onChange={handleUrlChange} />
 
-                <label>Image:</label>
-                <input type="file" onChange={handleFileChange} accept="image/*" />
-
-                <label>or Image URL:</label>
-                <input type="text" value={imageUrl} onChange={handleUrlChange} />
-
-                <button type="submit">Submit</button>
-            </form>
+                            <button className='btn btn-purple' type="submit">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
     );
 };

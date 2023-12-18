@@ -34,7 +34,7 @@
 }
 
 .photo-card:hover {
-  transform: scale(1.1) rotate(5deg);
+  transform: scale(1.05) rotate(3.5deg);
 }
 
 .img-box {
@@ -91,6 +91,10 @@
   width: 100vw;
 }
 
+.width-full {
+  width: 100%;
+}
+
 .decoration-none {
   text-decoration: none;
   color: white;
@@ -102,6 +106,16 @@
 
 .btn-yellow:hover {
   background-color: rgb(240, 184, 110);
+}
+
+.btn-purple {
+  background-color: #836096;
+  color: white;
+}
+
+.btn-purple:hover {
+  background-color: #5d446a;
+  color: white;
 }
 
 .no-padding {

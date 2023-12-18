@@ -60,7 +60,6 @@ const EditPhoto = () => {
 
     return (
         <div>
-            <h2>Edit Photo</h2>
             {photoData && (
                 <PhotoForm
                     token={userToken}

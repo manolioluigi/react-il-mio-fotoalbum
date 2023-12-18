@@ -12,6 +12,7 @@ import { AuthProvider } from './AuthContext';
 import PrivateRoute from './PrivateRoute';
 import CreatePhoto from './components/Admin/CreatePhoto';
 import EditPhoto from './components/Admin/EditPhoto';
+import Register from './components/Public/Register';
 
 function App() {
     return (
@@ -21,6 +22,7 @@ function App() {
                 <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="/login" element={<Login />} />
+                    <Route path="/register" element={<Register />} />
                     <Route path="/admin/photos" element={<PrivateRoute><PhotoList /></PrivateRoute>} />
                     <Route path="/photos/:id" element={<PhotoDetails />} />
                     <Route path="/categories" element={<CategoryList />} />

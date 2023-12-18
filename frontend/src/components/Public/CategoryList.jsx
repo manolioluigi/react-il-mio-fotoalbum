@@ -22,13 +22,20 @@ const CategoryList = () => {
     }, []);
 
     return (
-        <div>
-            <h2>Categories</h2>
-            <ul>
-                {categories.map((category) => (
-                    <li key={category.id}>{category.name}</li>
-                ))}
-            </ul>
+        <div className='page'>
+            <div className="container">
+                <div className="row">
+                    <div className="col width-full">
+                        <h2 className='py-5'>Categorie disponibili</h2>
+                        <ul className='list-unstyled width-full'>
+                            {categories.map((category) => (
+                                <li key={category.id}><h4>{category.name}</h4><hr /></li>
+                            ))}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
         </div>
     );
 }

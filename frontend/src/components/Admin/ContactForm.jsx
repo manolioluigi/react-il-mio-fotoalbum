@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useAuth } from '../../AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const ContactForm = () => {
     const [senderName, setSenderName] = useState('');
@@ -7,6 +8,7 @@ const ContactForm = () => {
     const { user } = useAuth();
     const userId = user.userId;
     const token = localStorage.getItem('userToken');
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -14,6 +16,7 @@ const ContactForm = () => {
         try {
             const response = await inviaMessaggioAPI({ senderName, messageText });
             console.log('Messaggio inviato con successo:', response);
+            navigate("/");
         } catch (error) {
             console.error('Errore durante l\'invio del messaggio:', error);
         }
@@ -44,17 +47,24 @@ const ContactForm = () => {
     };
 
     return (
-        <div>
-            <h2>Contact Us</h2>
-            <form onSubmit={handleSubmit}>
-                <label>Your Name:</label>
-                <input type="text" value={senderName} onChange={(e) => setSenderName(e.target.value)} required />
+        <div className='page'>
+            <div className="container">
+                <div className="row">
+                    <div className="col">
+                        <h2 className='my-5'>Contattaci</h2>
+                        <form className='d-flex flex-column' onSubmit={handleSubmit}>
+                            <label>Il tuo nome</label>
+                            <input className='form-control' type="text" value={senderName} onChange={(e) => setSenderName(e.target.value)} required />
 
-                <label>Message:</label>
-                <textarea value={messageText} onChange={(e) => setMessageText(e.target.value)} required />
+                            <label>Cosa vuoi farci sapere?</label>
+                            <textarea className='form-control' value={messageText} onChange={(e) => setMessageText(e.target.value)} required />
 
-                <button type="submit">Send Message</button>
-            </form>
+                            <button className='btn btn-purple' type="submit">Send Message</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
         </div>
     );
 };
