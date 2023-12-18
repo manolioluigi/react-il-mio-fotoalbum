@@ -86,6 +86,11 @@
   font-size: 50px;
 }
 
+.search-bar {
+  width: 40vw;
+  margin-bottom: 30px;
+}
+
 /*utilities*/
 .width-100 {
   width: 100vw;

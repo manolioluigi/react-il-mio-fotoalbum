@@ -3,10 +3,11 @@ import { Link } from 'react-router-dom';
 
 const Home = () => {
     const [photos, setPhotos] = useState([]);
+    const [searchQuery, setSearchQuery] = useState('');
+    const [filteredPhotos, setFilteredPhotos] = useState([]);
 
     function isExternalUrl(url) {
         const trimmedUrl = url.trim();
-        console.log(trimmedUrl.split('').map(char => char.charCodeAt(0).toString(16)).join(' '));
         return trimmedUrl.startsWith('http://') || trimmedUrl.startsWith('https://');
     }
 
@@ -29,34 +30,55 @@ const Home = () => {
         fetchPhotos();
     }, []);
 
+    useEffect(() => {
+        const filterPhotosByTitle = (photo) => {
+            return photo.title.toLowerCase().includes(searchQuery.toLowerCase());
+        };
+
+        setFilteredPhotos(photos.filter(filterPhotosByTitle));
+    }, [searchQuery, photos]);
+
     return (
         <div className='page'>
             <div className="container-fluid">
                 <div className="row">
-                    <div className="col py-5">
+                    <div className="col py-5 d-flex flex-column align-items-center">
+                        <div className="search-bar">
+                            <input
+                                className='form-control'
+                                type="text"
+                                placeholder="Cerca per titolo..."
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                            />
+                        </div>
                         <ul className="list-unstyled d-flex flex-wrap justify-content-center gap-5">
-                            {photos.map((photo) => (
-                                <li className='photo-card' key={photo.id}>
-                                    <Link className='decoration-none' to={`/photos/${photo.id}`}>
-                                        <div className="img-box">
-                                            {isExternalUrl(photo.image) ? (
-                                                <img src={photo.image} alt={photo.title} />
-                                            ) : (
-                                                <img src={`http://localhost:3300/images/${photo.image}`} alt={photo.title} />
-                                            )}
-                                        </div>
-                                        <div className="content-box d-flex p-5 justify-content-between align-items-center">
-                                            <h3>{photo.title}</h3>
-                                            <i className="fa-solid fa-up-right-from-square"></i>
-                                        </div>
-                                    </Link>
-                                </li>
-                            ))}
+                            {filteredPhotos.length > 0 ? (
+                                filteredPhotos.map((photo) => (
+                                    <li className='photo-card' key={photo.id}>
+                                        <Link className='decoration-none' to={`/photos/${photo.id}`}>
+                                            <div className="img-box">
+                                                {isExternalUrl(photo.image) ? (
+                                                    <img src={photo.image} alt={photo.title} />
+                                                ) : (
+                                                    <img src={`http://localhost:3300/images/${photo.image}`} alt={photo.title} />
+                                                )}
+                                            </div>
+                                            <div className="content-box d-flex p-5 justify-content-between align-items-center">
+                                                <h3>{photo.title}</h3>
+                                                <i className="fa-solid fa-up-right-from-square"></i>
+                                            </div>
+                                        </Link>
+                                    </li>
+                                ))
+                            ) : (
+                                <h5>Nessuna foto trovata :(</h5>
+                            )}
                         </ul>
-                    </div >
-                </div >
-            </div >
-        </div >
+                    </div>
+                </div>
+            </div>
+        </div>
     );
 }
 

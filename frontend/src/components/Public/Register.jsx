@@ -1,4 +1,3 @@
-// RegisterForm.jsx
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -19,20 +18,16 @@ const RegisterForm = () => {
         e.preventDefault();
 
         try {
-            // Implementa la logica per la chiamata API di registrazione
             const response = await registerUserAPI({ username, password });
 
-            // Gestisci la risposta, ad esempio, visualizza un messaggio di successo
             console.log('Utente registrato con successo:', response);
             navigate("/login")
         } catch (error) {
-            // Gestisci gli errori, ad esempio, mostra un messaggio di errore
             console.error('Errore durante la registrazione:', error.message);
         }
     };
 
     const registerUserAPI = async (userData) => {
-        // Implementa la logica per la chiamata API di registrazione
         const response = await fetch('http://localhost:3300/register', {
             method: 'POST',
             headers: {
