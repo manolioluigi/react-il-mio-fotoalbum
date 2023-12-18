@@ -77,6 +77,7 @@ const updatePhoto = async (req, res) => {
             image = `/uploads/${req.file.filename}`;
         }
 
+        // Verifica se categories è definito prima di eseguire la mappatura
         const updatedPhoto = await prisma.photo.update({
             where: { id: parseInt(id) },
             data: {
@@ -84,7 +85,7 @@ const updatePhoto = async (req, res) => {
                 description,
                 image,
                 visible,
-                categories: { connect: categories.map((categoryId) => ({ id: parseInt(categoryId, 10) })) },
+                categories: categories ? { connect: categories.map((categoryId) => ({ id: parseInt(categoryId, 10) })) } : undefined,
                 userId: parseInt(userId, 10),
             },
         });

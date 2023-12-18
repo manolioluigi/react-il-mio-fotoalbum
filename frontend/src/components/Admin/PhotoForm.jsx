@@ -10,6 +10,7 @@ const PhotoForm = ({ token, userId, photoData }) => {
     const [selectedCategories, setSelectedCategories] = useState(
         photoData ? photoData.categories.map(category => category.id) : []
     );
+    console.log(selectedCategories)
 
     useEffect(() => {
         const fetchCategories = async () => {
@@ -35,13 +36,11 @@ const PhotoForm = ({ token, userId, photoData }) => {
     }, [token]);
 
     useEffect(() => {
-        // Impostare lo stato iniziale dei campi del modulo quando photoData cambia
         if (photoData) {
             setTitle(photoData.title || '');
             setDescription(photoData.description || '');
             setVisible(photoData.visible || true);
-            setSelectedCategories(photoData.categories || []);
-            // Aggiungi eventuali altri campi che vuoi gestire
+            setSelectedCategories(photoData.categories ? photoData.categories.map(category => category.id) : []);
         }
     }, [photoData]);
 
@@ -81,8 +80,12 @@ const PhotoForm = ({ token, userId, photoData }) => {
 
             formData.append('userId', userId);
 
-            const response = await fetch(`http://localhost:3300/admin/${userId}/photos`, {
-                method: 'POST',
+            const url = photoData ? `http://localhost:3300/admin/${userId}/photos/${photoData.id}` : `http://localhost:3300/admin/${userId}/photos`;
+
+            const method = photoData ? 'PUT' : 'POST';
+
+            const response = await fetch(url, {
+                method,
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -91,14 +94,15 @@ const PhotoForm = ({ token, userId, photoData }) => {
 
             if (response.ok) {
                 const data = await response.json();
-                console.log('Photo created successfully:', data);
+                console.log('Photo created/updated successfully:', data);
             } else {
-                console.error('Error creating photo:', response.statusText);
+                console.error('Error creating/updating photo:', response.statusText);
             }
         } catch (error) {
-            console.error('Error creating photo:', error.message);
+            console.error('Error creating/updating photo:', error.message);
         }
     };
+
 
     return (
         <div>
@@ -129,6 +133,7 @@ const PhotoForm = ({ token, userId, photoData }) => {
                         </option>
                     ))}
                 </select>
+
 
                 <label>Image:</label>
                 <input type="file" onChange={handleFileChange} accept="image/*" />

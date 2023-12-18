@@ -6,3 +6,33 @@
   box-sizing: border-box;
   font-family: 'Open Sans', sans-serif;
 }
+
+.header {
+  background-color: #836096;
+  color: white;
+  height: 8vh;
+}
+
+.logo {
+  font-size: 4vh;
+  margin-right: 10px;
+  margin-bottom: 5px;
+}
+
+/*utilities*/
+.width-100 {
+  width: 100vw;
+}
+
+.decoration-none {
+  text-decoration: none;
+  color: white;
+}
+
+.btn-yellow {
+  background-color: rgb(235, 231, 108);
+}
+
+.btn-yellow:hover {
+  background-color: rgb(240, 184, 110);
+}

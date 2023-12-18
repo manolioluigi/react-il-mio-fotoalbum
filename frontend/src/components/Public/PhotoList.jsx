@@ -1,9 +1,10 @@
-// components/Public/PhotoList.jsx
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../../AuthContext';
 
 const PhotoList = () => {
     const [photos, setPhotos] = useState([]);
+    const { user } = useAuth();
 
     useEffect(() => {
         const fetchPhotos = async () => {
@@ -11,7 +12,8 @@ const PhotoList = () => {
                 const response = await fetch('http://localhost:3300/photos');
                 if (response.ok) {
                     const data = await response.json();
-                    setPhotos(data);
+                    const userPhotos = data.filter(photo => photo.userId === user.userId);
+                    setPhotos(userPhotos);
                 } else {
                     console.error('Error fetching photos:', response.statusText);
                 }
@@ -20,12 +22,14 @@ const PhotoList = () => {
             }
         };
 
-        fetchPhotos();
-    }, []);
+        if (user && user.userId) {
+            fetchPhotos();
+        }
+    }, [user]);
 
     return (
         <div>
-            <h2>Photo List</h2>
+            <h2>Your Photo List</h2>
             <ul>
                 {photos.map((photo) => (
                     <li key={photo.id}>

@@ -9,20 +9,22 @@ const EditPhoto = () => {
     const userToken = localStorage.getItem('userToken');
     const { photoId } = useParams();
     const [photoData, setPhotoData] = useState(null);
+    const [photoCategories, setPhotoCategories] = useState([]);
 
     useEffect(() => {
         const fetchPhotoData = async () => {
             try {
-                const response = await fetch(`http://localhost:3300/photos/${photoId}`, {
-                    headers: {
-                        Authorization: `Bearer ${userToken}`,
-                    },
-                });
+                const response = await fetch(`http://localhost:3300/photos/${photoId}`);
 
                 if (response.ok) {
                     const data = await response.json();
-                    setPhotoData(data);
-                    console.log(data)
+                    setPhotoData(prevPhotoData => {
+                        console.log("photodata", prevPhotoData);
+                        return {
+                            ...data,
+                            categories: data.categories || [], // Aggiungi questa linea
+                        };
+                    });
                 } else {
                     console.error('Error fetching photo data:', response.statusText);
                 }
@@ -32,28 +34,29 @@ const EditPhoto = () => {
         };
 
         fetchPhotoData();
-    }, [userId, userToken, photoId]);
+    }, [userId, photoId]);
 
-    const handleEditSubmit = async (formData) => {
-        try {
-            const response = await fetch(`http://localhost:3300/admin/${userId}/photos/${photoId}`, {
-                method: 'PUT',
-                headers: {
-                    Authorization: `Bearer ${userToken}`,
-                },
-                body: formData,
-            });
+    useEffect(() => {
+        const fetchCategories = async () => {
+            try {
+                const allCategoriesResponse = await fetch('http://localhost:3300/categories');
 
-            if (response.ok) {
-                const updatedData = await response.json();
-                console.log('Photo updated successfully:', updatedData);
-            } else {
-                console.error('Error updating photo:', response.statusText);
+                if (allCategoriesResponse.ok) {
+                    const allCategoriesData = await allCategoriesResponse.json();
+                    const categories = allCategoriesData.filter(category => photoData.categories.includes(category.id));
+                    setPhotoCategories(categories);
+                } else {
+                    console.error('Error fetching all categories:', allCategoriesResponse.statusText);
+                }
+            } catch (error) {
+                console.error('Error fetching all categories:', error.message);
             }
-        } catch (error) {
-            console.error('Error updating photo:', error.message);
+        };
+
+        if (photoData && photoData.categories) {
+            fetchCategories();
         }
-    };
+    }, [photoData]);
 
     return (
         <div>
@@ -63,6 +66,7 @@ const EditPhoto = () => {
                     token={userToken}
                     userId={userId}
                     photoData={photoData}
+                    photoCategories={photoCategories}
                 />
             )}
         </div>
