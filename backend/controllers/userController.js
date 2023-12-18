@@ -68,7 +68,7 @@ const register = async (req, res) => {
     const { username, password, role } = req.body;
 
     try {
-        const existingUser = await getUserById(userId);
+        const existingUser = await getUserByUsername(username);
 
         if (existingUser) {
             res.status(400).json({ error: 'Nome utente già in uso' });

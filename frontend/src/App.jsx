@@ -22,7 +22,7 @@ function App() {
                     <Route path="/" element={<Home />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/admin/photos" element={<PrivateRoute><PhotoList /></PrivateRoute>} />
-                    <Route path="/admin/photos/:id" element={<PrivateRoute><PhotoDetails /></PrivateRoute>} />
+                    <Route path="/photos/:id" element={<PhotoDetails />} />
                     <Route path="/categories" element={<CategoryList />} />
                     <Route path="/admin/photos/photo-form" element={<PrivateRoute><PhotoForm /></PrivateRoute>} />
                     <Route path="/admin/contact-form" element={<PrivateRoute><ContactForm /></PrivateRoute>} />

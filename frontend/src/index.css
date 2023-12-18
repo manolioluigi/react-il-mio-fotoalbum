@@ -11,12 +11,79 @@
   background-color: #836096;
   color: white;
   height: 8vh;
+  position: sticky;
+  top: 0;
+}
+
+.page {
+  background-color: #F0B86E;
+  min-height: 92vh;
 }
 
 .logo {
   font-size: 4vh;
   margin-right: 10px;
   margin-bottom: 5px;
+}
+
+.photo-card {
+  width: 35vw;
+  background-color: #836096;
+  border-radius: 20px;
+  transition: all 0.3s;
+}
+
+.photo-card:hover {
+  transform: scale(1.1) rotate(5deg);
+}
+
+.img-box {
+  height: 30vh;
+  overflow: hidden;
+}
+
+.content-box {
+  height: 10vh;
+  color: white;
+}
+
+.img-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  border-top-right-radius: 20px;
+  border-top-left-radius: 20px;
+}
+
+.wide-img {
+  width: 100%;
+  height: 92vh;
+  position: relative;
+}
+
+.wide-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.wide-text {
+  position: absolute;
+  padding: 10px 20px;
+  color: white;
+  bottom: 0;
+  width: 100%;
+  background-color: rgba(131, 96, 150, 0.512);
+}
+
+.back {
+  position: absolute;
+  top: 20px;
+  left: 30px;
+  color: white;
+  font-size: 50px;
 }
 
 /*utilities*/
@@ -35,4 +102,12 @@
 
 .btn-yellow:hover {
   background-color: rgb(240, 184, 110);
+}
+
+.no-padding {
+  padding: 0;
+}
+
+.no-margin {
+  margin: 0;
 }

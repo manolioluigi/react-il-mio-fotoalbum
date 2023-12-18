@@ -30,6 +30,9 @@ const PhotoList = () => {
     return (
         <div>
             <h2>Your Photo List</h2>
+            <Link to={"/admin/create-photo"}>
+                <button className='btn btn-primary'>Aggiungi una foto</button>
+            </Link>
             <ul>
                 {photos.map((photo) => (
                     <li key={photo.id}>

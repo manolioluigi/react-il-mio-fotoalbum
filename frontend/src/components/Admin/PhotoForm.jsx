@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const PhotoForm = ({ token, userId, photoData }) => {
     const [title, setTitle] = useState(photoData ? photoData.title : '');
@@ -10,7 +11,7 @@ const PhotoForm = ({ token, userId, photoData }) => {
     const [selectedCategories, setSelectedCategories] = useState(
         photoData ? photoData.categories.map(category => category.id) : []
     );
-    console.log(selectedCategories)
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchCategories = async () => {
@@ -95,6 +96,7 @@ const PhotoForm = ({ token, userId, photoData }) => {
             if (response.ok) {
                 const data = await response.json();
                 console.log('Photo created/updated successfully:', data);
+                navigate("/admin/photos");
             } else {
                 console.error('Error creating/updating photo:', response.statusText);
             }

@@ -42,7 +42,7 @@ const createPhoto = async (req, res) => {
         if (req.body.image) {
             image = req.body.image;
         } else if (req.file) {
-            image = `/uploads/${req.file.filename}`;
+            image = req.file.filename;
         }
 
         const newPhoto = await prisma.photo.create({

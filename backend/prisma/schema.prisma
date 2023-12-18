@@ -11,7 +11,7 @@ model Photo {
   id          Int        @id @default(autoincrement())
   title       String
   description String?
-  image       String?
+  image       String
   visible     Boolean
   categories  Category[]
   User        User?      @relation(fields: [userId], references: [id])
